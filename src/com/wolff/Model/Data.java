@@ -16,6 +16,8 @@ public class Data {
 	
 	private CheckBox check;
 	
+	private Boolean unemployed;
+	
 	public Data() {
 		
 	}
@@ -27,6 +29,7 @@ public class Data {
 		this.phone = phone;
 		this.id = id;
 		this.email = email;
+		this.check = new CheckBox();
 	}
 
 	public String getName() {
@@ -75,6 +78,14 @@ public class Data {
 
 	public void setCheck(CheckBox check) {
 		this.check = check;
+	}
+
+	public Boolean getUnemployed() {
+		return unemployed;
+	}
+
+	public void setUnemployed(Boolean unemployed) {
+		this.unemployed = unemployed;
 	}
 
 	@Override

@@ -5,10 +5,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.wolff.Model.CheckBoxCellFactory;
 import com.wolff.Model.Data;
 import com.wolff.Service.DataService;
-import com.wolff.Service.IDataService;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,8 +20,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -33,21 +40,24 @@ public class DataController implements Initializable {
 
 	    @FXML
 	    private Color x2;
+	    
+	    @FXML
+	    private TableView<Data> tbl;
 
 	    @FXML
-	    private TableColumn<?, ?> columnName;
+	    private TableColumn<Data, String> columnName;
 
 	    @FXML
-	    private TableColumn<?, ?> columnEmail;
+	    private TableColumn<Data, String> columnEmail;
 
 	    @FXML
-	    private TableColumn<?, ?> columnPhone;
+	    private TableColumn<Data, String> columnPhone;
 
 	    @FXML
-	    private TableColumn<?, ?> columnCreated;
+	    private TableColumn<Data, String> columnCreated;
 
 	    @FXML
-	    private TableColumn<?, ?> Send;
+	    private TableColumn<Data, CheckBox> Send;
 
 	    @FXML
 	    private TextField txtName;
@@ -61,20 +71,36 @@ public class DataController implements Initializable {
 	    @FXML
 	    private TextField txtCreated;
 	    
+	    private CheckBox checkBox = new CheckBox();
+	    
 	    private DataService dataService;
 
 		@Override
 		public void initialize(URL location, ResourceBundle resources) {
-			dataService = new DataService();
+			
+		CheckBoxCellFactory c = new CheckBoxCellFactory();
+		Data d = new Data();
+
+		columnName.setCellValueFactory(new PropertyValueFactory<Data, String>("name"));
+		columnEmail.setCellValueFactory(new PropertyValueFactory<Data, String>("email"));
+		columnPhone.setCellValueFactory(new PropertyValueFactory<Data, String>("phone"));
+		columnCreated.setCellValueFactory(new PropertyValueFactory<Data, String>("createdOn"));
+		tbl.setItems(listar());
+		
 			
 		}
 		
-		public ObservableList<Data>list(){
-			
-//			ObservableList<Data>listar = new Observable
-			
-			return null;
+		public void isSelec(ActionEvent event) {
+				
 		}
+		
+		
+		public ObservableList<Data>listar(){
+			dataService = new DataService();
+			List<Data>list = dataService.listar();
+			ObservableList<Data>listar_ = FXCollections.observableArrayList(list);
+			return listar_;
+		 }
 		
 		public void changeScene(ActionEvent event) throws IOException {
 			Parent emailPane = FXMLLoader.load(getClass().getResource("../app/email.fxml"));
@@ -84,6 +110,7 @@ public class DataController implements Initializable {
 			window.setScene(scene);
 			window.show();
 		}
+		
 	
 }
 

@@ -24,6 +24,8 @@ public class EmailController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		List<Data>e = dataService.listar();
+		System.out.println(e.size());
+		
 	}
 
 	public void goBack(ActionEvent event) throws IOException {
