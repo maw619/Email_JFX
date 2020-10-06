@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -87,8 +88,25 @@ public class DataController implements Initializable {
 		columnCreated.setCellValueFactory(new PropertyValueFactory<Data, String>("createdOn"));
 		tbl.setItems(listar());
 		
-			
+		
+		tbl.setOnMouseClicked((MouseEvent event) -> {
+		    if (event.getClickCount() > 0) {
+		        onEdit(tbl);
+		    }
+		});
 		}
+		
+		
+		public void onEdit(TableView<Data> table) {
+		    // check the table's selected item and get selected item
+		    if (table.getSelectionModel().getSelectedItem() != null) {
+		        Data selectedData = table.getSelectionModel().getSelectedItem();
+		        txtName.setText(selectedData.getName());
+		        txtPhone.setText(selectedData.getPhone());
+		        txtEmail.setText(selectedData.getEmail());
+		        txtCreated.setText(selectedData.getCreatedOn());
+		    }
+	}
 		
 		public void isSelec(ActionEvent event) {
 				
